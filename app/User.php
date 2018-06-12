@@ -32,4 +32,39 @@ class User extends Authenticatable
     {
         return $this->hasMany(Micropost::class);
     }
+    
+     public function likings()
+    {
+        return $this->belongsToMany(Micropost::class, 'user_like', 'user_id', 'micropost_id')->withTimestamps();
+    }
+    
+    public function like($micropostId)
+{
+    $exist = $this->is_liking($micropostId);
+   
+    if ($exist) {
+        return false;
+    } else {
+        $this->likings()->attach($micropostId);
+        return true;
+    }
 }
+
+public function unlike($micropostId)
+{
+    $exist = $this->is_liking($micropostId);
+
+    if ($exist) {
+        $this->likings()->detach($micropostId);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+public function is_liking($micropostId) {
+    return $this->likings()->where('micropost_id', $micropostId)->exists();
+}
+}
+

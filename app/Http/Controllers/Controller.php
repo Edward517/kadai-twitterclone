@@ -11,12 +11,16 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
-        public function counts($user) {
+            public function counts($user) {
         $count_microposts = $user->microposts()->count();
+        $count_likings = $user->likings()->count();
 
         return [
             'count_microposts' => $count_microposts,
+            'count_likings' => $count_likings,
         ];
     }
+    
+    
 }
 

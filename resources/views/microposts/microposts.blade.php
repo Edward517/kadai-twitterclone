@@ -1,5 +1,6 @@
 <ul class="media-list">
 @foreach ($microposts as $micropost)
+    
     <?php $user = $micropost->user; ?>
     <li class="media">
         <div class="media-left">
@@ -11,6 +12,7 @@
             </div>
             <div>
                 <p>{!! nl2br(e($micropost->content)) !!}</p>
+                @include('user_like.like_button', ['micropost' => $micropost])
             </div>
             <div>
                 @if (Auth::user()->id == $micropost->user_id)
